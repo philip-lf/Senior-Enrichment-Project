@@ -2,19 +2,21 @@ import React, { Component } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom';
 import NewCampus from './NewCampus'
 import Navbar from './Navbar'
-// import Header from './Header.jsx'
-// import Main from './Main.jsx'
-// import { NavLink } from 'react-router-dom';
+import Footer from './Footer'
+import Campuses from './Campuses'
 
-export default function Root() {
-  return (
-    <div>
-      <Navbar />
-      <Root>
-          <Switch>
-            <Route path="/new-campus" component={NewCampus} />
-          </Switch>
-      </Root>
-    </div>
-  )
+export default class Root extends Component {
+
+  render() {
+    return (
+      <div>
+        <Navbar />
+        <Switch>
+          <Route path="/campuses" component={Campuses} />
+          <Route path="/new-campus" component={NewCampus} />
+        </Switch>
+        <Footer />
+      </div>
+    )
+  }
 }

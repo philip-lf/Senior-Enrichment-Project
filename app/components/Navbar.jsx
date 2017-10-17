@@ -4,15 +4,15 @@ import { NavLink } from 'react-router-dom';
 export default function NewCampus() {
   return (
     <div>
-        <span>
-            <NavLink to="/new-campus">
-                poop
-            </NavLink>
-        </span>
         <button>
-            <h3>
-                
-            </h3>
+            <NavLink to="/campuses">
+                HOME
+            </NavLink>
+        </button>
+        <button>
+            <NavLink to="/new-campus">
+                STUDENTS
+            </NavLink>
         </button>
     </div>
   )

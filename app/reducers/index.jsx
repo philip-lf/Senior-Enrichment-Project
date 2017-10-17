@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux'
+import axios from 'axios'
 
 // INITIAL STATE
 const initialState = {
-  campuses: [],
+  campuses: ['dog', 'cat'],
   students: []
 }
 
@@ -56,6 +57,9 @@ export function deleteCampus(campus) {
     campus
   }
 }
+
+
+
 
 export function getAllStudents(students) {
   return {
@@ -132,7 +136,7 @@ const rootReducer = function(state = initialState, action) {
   switch(action.type) {
 
     case GET_ALL_CAMPUSES:
-      return Object.assign({}, state, {})
+      return Object.assign({}, state, {campuses: action.campus})
 
     case GET_ONE_CAMPUS:
       return Object.assign({}, state, {})
