@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // INITIAL STATE
 const initialState = {
-  campuses: ['dog', 'cat'],
+  campuses: [],
   students: []
 }
 
@@ -108,10 +108,10 @@ export function fetchCampuses() {
     }
 }
 
-export function PostCampus() {
+export function postCampus(campus) {
   
     return function thunk(dispatch) {
-      return axios.post('/api/campuses')
+      return axios.post('/api/campuses', campus)
         .then(res => res.data)
         .then(campus => {
           dispatch(addCampus(campus))
@@ -126,6 +126,17 @@ export function fetchStudents() {
         .then(res => res.data)
         .then(students => {
           dispatch(getAllStudents(students))
+        })
+    }
+}
+
+export function postStudent(student) {
+  
+    return function thunk(dispatch) {
+      return axios.post('/api/students', student)
+        .then(res => res.data)
+        .then(campus => {
+          dispatch(addCampus(campus))
         })
     }
 }
@@ -174,3 +185,5 @@ const rootReducer = function(state = initialState, action) {
 };
 
 export default rootReducer
+
+

@@ -1,20 +1,30 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
-import store from '../store';
+// import store from '../store';
 import { connect } from 'react-redux';
 import { fetchCampuses } from '../reducers/index'
+import NewCampus from './NewCampus'
 
-function Campuses(props) {
-  return (
-    <div>
-        All Campuses:
-        {props.campuses.map(campus => {
-            return (
-                <p key={campus}>{campus}</p>
-            )
-        })}
-    </div>
-  )
+class Campuses extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    componentDidMount() {
+        this.props.getCampuses()
+    }
+
+    render() {
+        return (
+            <div>
+                <NewCampus />
+                ALL Campuses:
+              {this.props.campuses.map(campus => (
+                    <p key={campus.id}>{campus.name}</p>
+                ))}
+            </div>
+        )
+    }
 }
 
 function mapStateToProps(state) {
@@ -24,8 +34,6 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    console.log("im in mapDispatchToProps")
-    
     return {
         getCampuses() {
             dispatch(fetchCampuses())

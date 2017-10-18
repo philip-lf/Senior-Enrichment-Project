@@ -5,8 +5,13 @@ export default function NewCampus() {
   return (
     <div>
         <button>
-            <NavLink to="/campuses">
+            <NavLink to="/home">
                 HOME
+            </NavLink>
+        </button>
+        <button>
+            <NavLink to="/campuses">
+                CAMPUSES
             </NavLink>
         </button>
         <button>
