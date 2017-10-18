@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { postStudent, fetchStudents } from '../reducers/index'
+import { postStudent, fetchStudents, fetchCampuses } from '../reducers/index'
 
 class NewStudent extends Component {
     constructor(props) {
@@ -9,12 +9,18 @@ class NewStudent extends Component {
             firstNameValue: '',
             lastNameValue: '',
             emailValue: '',
-            imageValue: ''
+            imageValue: '',
+            campusValue: ''
         }
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this)
         this.handleLastNameChange = this.handleLastNameChange.bind(this)
         this.handleEmailChange = this.handleEmailChange.bind(this)
         this.handleImageChange = this.handleImageChange.bind(this)
+        this.handleCampus = this.handleCampus.bind(this)
+    }
+
+    componentDidMount() {
+        this.props.getCampuses()
     }
 
     handleFirstNameChange(event) {
@@ -42,6 +48,13 @@ class NewStudent extends Component {
         console.log("image: ", event.target.value)
         this.setState({
             imageValue: event.target.value
+        })
+    }
+
+    handleCampus(event) {
+        console.log("campus: ", event.target.value)
+        this.setState({
+            campusValue: event.target.value
         })
     }
 
@@ -86,12 +99,30 @@ class NewStudent extends Component {
                         value={this.state.imageValue}
                         onChange={this.handleImageChange} />
                     <br />
+                    <div>
+                        Campus to Attend:
+                        <select 
+                            name="campus"
+                            value={this.state.campusValue} 
+                            onChange={this.handleCampus}>
+                            {this.props.campuses.map(campus => (
+                                <option key={campus.id} value={campus.id}>{campus.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <br />
                     <button type="submit">
                         SUBMIT
                     </button>
                 </form>
             </div>
         )
+    }
+}
+
+function mapStateToProps(state) {
+    return {
+        campuses: state.campuses
     }
 }
 
@@ -103,12 +134,17 @@ function mapDispatchToProps(dispatch) {
             const last_name = event.target.last.value
             const email = event.target.email.value
             const image = event.target.imageURL.value
-            dispatch(postStudent({ first_name, last_name, email, image }))
+            const campusId = event.target.campus.value
+            dispatch(postStudent({ first_name, last_name, email, image, campusId }))
+            dispatch(fetchStudents())
+        },
+        getCampuses() {
+            dispatch(fetchCampuses())
             dispatch(fetchStudents())
         }
     }
 }
 
-const Container = connect(null, mapDispatchToProps)(NewStudent)
+const Container = connect(mapStateToProps, mapDispatchToProps)(NewStudent)
 
 export default Container

@@ -8,7 +8,6 @@
 // This is also probably a good place for you to set up your associations
 const Student = require('./students')
 const Campus = require('./campuses')
-// const db = require()
 
 Student.belongsTo(Campus)
 Campus.hasMany(Student)

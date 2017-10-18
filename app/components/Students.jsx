@@ -20,7 +20,7 @@ class Students extends Component {
                 <NewStudent />
                 ALL Students:
               {this.props.students.map(student => (
-                    <p key={student.id}>{student.email}</p>
+                    <p key={student.id}>{student.first_name}</p>
                 ))}
             </div>
         )

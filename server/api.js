@@ -64,14 +64,16 @@ api.delete('/campuses/:campusId', (req, res, next) => {
 
 // STUDENT ROUTES *******************************************************************
 
-// GET ALL CAMPUSES : /api/students
+// GET ALL STUDENTS : /api/students
 api.get('/students', (req, res, next) => {
-	Student.findAll()
+	Student.findAll({
+		include: [{ all: true, nested: true }]
+	})
 	.then(data => { res.json(data) })
 	.catch(next)
 })
 
-// POST CAMPUS
+// POST STUDENT
 api.post('/students', (req, res, next) => {
 	Student.create(req.body)
 	.then(student => {
@@ -81,7 +83,7 @@ api.post('/students', (req, res, next) => {
 	.catch(next)
 })
 
-// HANDLING ONE CAMPUS
+// HANDLING ONE STUDENT
 api.param('studentId', (req, res, next, id) => {
 	Student.findById(id)
 	.then(student => {            // array only contains one student instance
@@ -94,12 +96,12 @@ api.param('studentId', (req, res, next, id) => {
 	})
 })
 
-// GET CAMPUS BY ID
+// GET STUDENT BY ID
 api.get('/students/:studentId', (req, res, next) => {
 	res.json(req.student)
 })
 
-// UPDATE CAMPUS
+// UPDATE STUDENT
 api.put('/students/:studentId', (req, res, next) => {
 	req.student.update(req.body)
 	.then(student => {
@@ -109,7 +111,7 @@ api.put('/students/:studentId', (req, res, next) => {
 	.catch(next)
 })
 
-// DELETE CAMPUS
+// DELETE STUDENT
 api.delete('/students/:studentId', (req, res, next) => {
 	req.student.destroy()
 	.then(data => { console.log(chalk.bgRed(" Deleted Student :( ")) })
