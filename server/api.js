@@ -64,7 +64,7 @@ api.delete('/campuses/:campusId', (req, res, next) => {
 
 // STUDENT ROUTES *******************************************************************
 
-// GET ALL CAMPUSES : /api/campuses
+// GET ALL CAMPUSES : /api/students
 api.get('/students', (req, res, next) => {
 	Student.findAll()
 	.then(data => { res.json(data) })

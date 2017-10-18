@@ -165,7 +165,7 @@ const rootReducer = function(state = initialState, action) {
 
 
     case GET_ALL_STUDENTS:
-      return Object.assign({}, state, {})
+      return Object.assign({}, state, {students: action.students})
 
     case GET_ONE_STUDENT:
       return Object.assign({}, state, {})

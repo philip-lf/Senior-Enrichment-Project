@@ -15,7 +15,7 @@ export default function NewCampus() {
             </NavLink>
         </button>
         <button>
-            <NavLink to="/new-campus">
+            <NavLink to="/students">
                 STUDENTS
             </NavLink>
         </button>

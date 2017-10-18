@@ -5,6 +5,8 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import Campuses from './Campuses'
 import HomePage from './HomePage'
+import Students from './Students'
+import NewStudent from './NewStudent'
 
 export default class Root extends Component {
 
@@ -16,6 +18,8 @@ export default class Root extends Component {
           <Route path="/home" component={HomePage} />
           <Route path="/campuses" component={Campuses} />
           <Route path="/new-campus" component={NewCampus} />
+          <Route path="/students" component={Students} />
+          <Route path="/new-student" component={NewStudent} />
         </Switch>
         <Footer />
       </div>
