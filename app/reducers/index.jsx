@@ -91,7 +91,7 @@ export function updateStudent(student) {
 
 export function deleteStudent(student) {
   return {
-    type: DELETE_Student,
+    type: DELETE_STUDENT,
     student
   }
 }
@@ -115,6 +115,26 @@ export function postCampus(campus) {
         .then(res => res.data)
         .then(campus => {
           dispatch(addCampus(campus))
+        })
+    }
+}
+
+export function putCampus(campusId, campus) {
+  
+    return function thunk(dispatch) {
+      return axios.put(`/api/campuses/${campusId}`, campus)
+        .then(() => {
+          dispatch(updateCampus(campusId))
+        })
+    }
+}
+
+export function removeCampus(campusId) {
+  
+    return function thunk(dispatch) {
+      return axios.delete(`/api/students/${campusId}`)
+        .then(() => {
+          dispatch(deleteCampus(campusId))
         })
     }
 }
@@ -151,29 +171,15 @@ export function putStudent(studentId, student) {
     }
 }
 
-export function removeStudent(studentId) {
-  
-    return function thunk(dispatch) {
-      return axios.delete(`/api/students/${studentId}`)
-        .then(() => {
-          dispatch(deleteStudent(studentId))
-        })
+export function removeStudent(student) {
+  return function thunk(dispatch) {
+      dispatch(deleteStudent(student))
+      return axios.delete(`/api/students/${student.id}`)
+        // .then(() => {
+        //   dispatch(deleteStudent(studentId))
+        // })
     }
 }
-
-
-// export const updateStory = (id, story) => dispatch => {
-//   axios.put(`/api/stories/${id}`, story)
-//        .then(res => dispatch(update(res.data)))
-//        .catch(err => console.error(`Updating story: ${story} unsuccessful`, err));
-// };
-
-// export const removeStory = id => dispatch => {
-//   dispatch(remove(id));
-//   axios.delete(`/api/stories/${id}`)
-//        .catch(err => console.error(`Removing story: ${id} unsuccessful`, err));
-// };
-
 
 // REDUCER
 const rootReducer = function(state = initialState, action) {
@@ -204,13 +210,15 @@ const rootReducer = function(state = initialState, action) {
       return Object.assign({}, state, {})
 
     case ADD_STUDENT:
-      return Object.assign({}, state, {})
+      return Object.assign({}, state, {students: action.student})
 
     case UPDATE_STUDENT:
       return Object.assign({}, state, {})
     
     case DELETE_STUDENT:
-      return Object.assign({}, state, {})
+      return Object.assign({}, state, {students: state.students.filter(student => {
+        return student.id !== action.student.id
+      })})
 
     default: 
       return state

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchStudents, removeStudent } from '../reducers/index'
+import { fetchStudents, removeCampus, removeStudent } from '../reducers/index'
 
 class OneCampus extends Component {
     constructor(props) {
@@ -26,8 +26,19 @@ class OneCampus extends Component {
 
         return (
             <div>
-                All Students Enrolled in Campus:
-                {campus ? campus.name : ''}
+                <div>
+                    <p>Campus Name: {campus.name}</p>
+                    <p>Campus Location: {campus.location}</p>
+                    <img src={campus.image} width="60%" height="auto" />
+                </div>
+                <NavLink to={`/campus/edit/${campus.id}`}>
+                    <button>
+                        Edit
+                    </button>
+                </NavLink>
+                <button onClick={() => { this.props.removeCampus(campus.id) }}>
+                    Delete
+                </button>
                 <table>
                     <thead>
                         <tr>
@@ -36,7 +47,6 @@ class OneCampus extends Component {
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Campus</th>
-                            <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -52,11 +62,6 @@ class OneCampus extends Component {
                                 <td>{student.last_name}</td>
                                 <td>{student.email}</td>
                                 <td>{student.campus.name}</td>
-                                <td>
-                                    <button>
-                                        Edit
-                                    </button>
-                                </td>
                                 <td>
                                     <button onClick={() => { this.props.removeStudent(student.id) }}>
                                         Delete
@@ -84,9 +89,12 @@ function mapDispatchToProps(dispatch) {
         getStudents() {
             dispatch(fetchStudents())
         },
+        removeCampus(campusId) {
+            dispatch(removeCampus(campusId))
+            dispatch(fetchStudents())
+        },
         removeStudent(studentId) {
             dispatch(removeStudent(studentId))
-            dispatch(fetchStudents())
         }
     }
 }

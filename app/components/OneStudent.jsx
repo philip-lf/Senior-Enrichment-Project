@@ -30,11 +30,11 @@ class OneStudent extends Component {
                 <p>Email: {filteredStudents.email}</p>
                 <p>Campus: {campusName}</p>
                 <img src={filteredStudents.image} />
-                    {/* <NavLink to="">
-                        <button>
-                            Edit
-                        </button>
-                    </NavLink> */}
+                <NavLink to={`/students/edit/${filteredStudents.id}`}>
+                    <button>
+                        Edit
+                    </button>
+                </NavLink>
             </div>
         )
     }

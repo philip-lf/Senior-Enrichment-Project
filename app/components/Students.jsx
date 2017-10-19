@@ -28,12 +28,11 @@ class Students extends Component {
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Campus</th>
-                            <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {students.map(student => (
+                        {students.length && students.map(student => (
 
                             <tr key={student.id}>
                                 <td>
@@ -46,12 +45,7 @@ class Students extends Component {
                                 <td>{student.email}</td>
                                 <td>{student.campus.name}</td>
                                 <td>
-                                    <button>
-                                        Edit
-                                    </button>
-                                </td>
-                                <td>
-                                    <button onClick={() => { this.props.removeStudent(student.id) }}>
+                                    <button onClick={() => { this.props.removeStudent(student) }}>
                                         Delete
                                     </button>
                                 </td>
@@ -70,13 +64,14 @@ function mapStateToProps(state) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
     return {
         getStudents() {
             dispatch(fetchStudents())
         },
-        removeStudent(studentId) {
-            dispatch(removeStudent(studentId))
+        removeStudent(student) {
+            return dispatch(removeStudent(student))
+            // ownProps.history.push('/students')
         }
     }
 }

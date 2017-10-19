@@ -21,9 +21,9 @@ class Campuses extends Component {
                 ALL Campuses:
               {this.props.campuses.map(campus => (
                     <NavLink to={`/campuses/${campus.id}`} key={campus.id}>
-                        <p>
-                            {campus.name}
-                        </p>
+                        <p>Name: {campus.name}</p>
+                        <p>Location: {campus.location}</p>
+                        <img src={campus.image} width="40%" height="auto"/>
                     </NavLink>
                 ))}
             </div>
