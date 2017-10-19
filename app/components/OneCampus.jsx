@@ -15,13 +15,19 @@ class OneCampus extends Component {
     render() {
         const campusId = this.props.match.params.campusId
         const students = this.props.students
+
         const studentsByCampus = students.filter(student => {
             return Number(student.campusId) === Number(campusId)
         })
 
+        const campus = this.props.campuses.filter(campus => {
+            return +campus.id === +campusId
+        })[0]
+
         return (
             <div>
                 All Students Enrolled in Campus:
+                {campus ? campus.name : ''}
                 <table>
                     <thead>
                         <tr>
@@ -37,7 +43,11 @@ class OneCampus extends Component {
                     <tbody>
                         {studentsByCampus.map(student => (
                             <tr key={student.id}>
-                                <td><img src={student.image} width="auto" height="80px" /></td>
+                                <td>
+                                    <NavLink to={`/students/${student.id}`}>
+                                        <img src={student.image} width="auto" height="80px" />
+                                    </NavLink>
+                                </td>
                                 <td>{student.first_name}</td>
                                 <td>{student.last_name}</td>
                                 <td>{student.email}</td>
@@ -64,7 +74,8 @@ class OneCampus extends Component {
 
 function mapStateToProps(state) {
     return {
-        students: state.students
+        students: state.students,
+        campuses: state.campuses
     }
 }
 
@@ -75,6 +86,7 @@ function mapDispatchToProps(dispatch) {
         },
         removeStudent(studentId) {
             dispatch(removeStudent(studentId))
+            dispatch(fetchStudents())
         }
     }
 }

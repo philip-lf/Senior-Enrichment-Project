@@ -141,6 +141,16 @@ export function postStudent(student) {
     }
 }
 
+export function putStudent(studentId, student) {
+  
+    return function thunk(dispatch) {
+      return axios.put(`/api/students/${studentId}`, student)
+        .then(() => {
+          dispatch(updateStudent(studentId))
+        })
+    }
+}
+
 export function removeStudent(studentId) {
   
     return function thunk(dispatch) {
@@ -150,6 +160,13 @@ export function removeStudent(studentId) {
         })
     }
 }
+
+
+// export const updateStory = (id, story) => dispatch => {
+//   axios.put(`/api/stories/${id}`, story)
+//        .then(res => dispatch(update(res.data)))
+//        .catch(err => console.error(`Updating story: ${story} unsuccessful`, err));
+// };
 
 // export const removeStory = id => dispatch => {
 //   dispatch(remove(id));

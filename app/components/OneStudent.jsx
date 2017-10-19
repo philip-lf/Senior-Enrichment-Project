@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchStudents } from '../reducers/index'
+import { fetchStudents, putStudent } from '../reducers/index'
 
 class OneStudent extends Component {
     constructor(props) {
@@ -20,10 +20,21 @@ class OneStudent extends Component {
         })[0]
         const campusName = filteredStudents.campus.name
 
+        const edit = false
+
         return (
             <div>
                 Students Name:
-                {filteredStudents.first_name}
+                <p>First Name: {filteredStudents.first_name}</p>
+                <p>Last Name: {filteredStudents.last_name}</p>
+                <p>Email: {filteredStudents.email}</p>
+                <p>Campus: {campusName}</p>
+                <img src={filteredStudents.image} />
+                    {/* <NavLink to="">
+                        <button>
+                            Edit
+                        </button>
+                    </NavLink> */}
             </div>
         )
     }
@@ -35,13 +46,13 @@ function mapStateToProps(state) {
     }
 }
 
-// function mapDispatchToProps(dispatch) {
-//     return {
-//         getStudents() {
-//             dispatch(fetchStudents())
-//         }
-//     }
-// }
+function mapDispatchToProps(dispatch) {
+    return {
+        updateStudent() {
+            dispatch(putStudent())
+        }
+    }
+}
 
 const Container = connect(mapStateToProps)(OneStudent)
 
