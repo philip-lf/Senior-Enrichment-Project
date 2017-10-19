@@ -9,12 +9,15 @@ class Students extends Component {
         super(props)
     }
 
-    componentDidMount() {
-        this.props.getStudents()
-    }
+    // componentDidMount() {
+    //     this.props.getStudents()
+    // }
 
     render() {
         const students = this.props.students
+        const campuses = this.props.campuses
+
+        console.log("philip", campuses)
 
         return (
             <div>
@@ -43,7 +46,16 @@ class Students extends Component {
                                 <td>{student.first_name}</td>
                                 <td>{student.last_name}</td>
                                 <td>{student.email}</td>
-                                <td>{student.campus.name}</td>
+                                <td>
+                                    {campuses.find(campus => {
+                                    return campus.id === student.campusId
+                                    }) ? 
+                                    campuses.find(campus => {
+                                    return campus.id === student.campusId
+                                    }).name :
+                                    ''
+                                    }
+                                </td>
                                 <td>
                                     <button onClick={() => { this.props.removeStudent(student) }}>
                                         Delete
@@ -60,15 +72,16 @@ class Students extends Component {
 
 function mapStateToProps(state) {
     return {
-        students: state.students
+        students: state.students,
+        campuses: state.campuses
     }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
     return {
-        getStudents() {
-            dispatch(fetchStudents())
-        },
+        // getStudents() {
+        //     dispatch(fetchStudents())
+        // },
         removeStudent(student) {
             return dispatch(removeStudent(student))
             // ownProps.history.push('/students')

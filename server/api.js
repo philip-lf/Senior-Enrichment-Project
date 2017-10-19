@@ -58,7 +58,7 @@ api.put('/campuses/:campusId', (req, res, next) => {
 // DELETE CAMPUS
 api.delete('/campuses/:campusId', (req, res, next) => {
 	req.campus.destroy()
-	.then(data => { console.log(" Deleted Campus :( ") })
+	.then(data => { console.log(chalk.red(" Deleted Campus :( ")) })
 	.catch(next)
 })
 

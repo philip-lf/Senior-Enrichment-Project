@@ -8,9 +8,9 @@ class OneCampus extends Component {
         super(props)
     }
 
-    componentDidMount() {
-        this.props.getStudents()
-    }
+    // componentDidMount() {
+    //     this.props.getStudents()
+    // }
 
     render() {
         const campusId = this.props.match.params.campusId
@@ -23,6 +23,7 @@ class OneCampus extends Component {
         const campus = this.props.campuses.filter(campus => {
             return +campus.id === +campusId
         })[0]
+        console.log("CAMPUSES", campus)
 
         return (
             <div>
@@ -36,7 +37,7 @@ class OneCampus extends Component {
                         Edit
                     </button>
                 </NavLink>
-                <button onClick={() => { this.props.removeCampus(campus.id) }}>
+                <button onClick={() => { this.props.removeCampus(campus) }}>
                     Delete
                 </button>
                 <table>
@@ -84,14 +85,14 @@ function mapStateToProps(state) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
     return {
-        getStudents() {
-            dispatch(fetchStudents())
-        },
-        removeCampus(campusId) {
-            dispatch(removeCampus(campusId))
-            dispatch(fetchStudents())
+        // getStudents() {
+        //     dispatch(fetchStudents())
+        // },
+        removeCampus(campus) {
+            dispatch(removeCampus(campus, ownProps.history))
+            ownProps.history.push('/students')
         },
         removeStudent(studentId) {
             dispatch(removeStudent(studentId))

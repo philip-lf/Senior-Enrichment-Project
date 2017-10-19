@@ -37,6 +37,7 @@ class EditCampus extends Component {
     }
 
     render() {
+        console.log("this.porops", this.props)
         return (
             <div>
                 Edit Campus:
@@ -85,8 +86,7 @@ function mapDispatchToProps(dispatch, ownProps) {
             const name = event.target.name.value
             const location = event.target.location.value
             const image = event.target.imageURL.value
-            dispatch(putCampus(campusId, { name, location, image }))
-            dispatch(fetchCampuses())
+            return dispatch(putCampus(campusId, { name, location, image }, ownProps.history))
         }
     }
 }

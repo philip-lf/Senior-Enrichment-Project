@@ -91,7 +91,6 @@ function mapDispatchToProps(dispatch) {
             const location = event.target.location.value
             const image = event.target.imageURL.value
             dispatch(postCampus({ name, location, image }))
-            dispatch(fetchCampuses())
         }
     }
 }

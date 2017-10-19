@@ -10,9 +10,9 @@ class Campuses extends Component {
         super(props)
     }
 
-    componentDidMount() {
-        this.props.getCampuses()
-    }
+    // componentDidMount() {
+    //     this.props.getCampuses()
+    // }
 
     render() {
         return (
@@ -37,14 +37,14 @@ function mapStateToProps(state) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        getCampuses() {
-            dispatch(fetchCampuses())
-        }
-    }
-}
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         getCampuses() {
+//             dispatch(fetchCampuses())
+//         }
+//     }
+// }
 
-const Container = connect(mapStateToProps, mapDispatchToProps)(Campuses)
+const Container = connect(mapStateToProps)(Campuses)
 
 export default Container

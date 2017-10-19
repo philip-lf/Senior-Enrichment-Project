@@ -138,8 +138,7 @@ function mapDispatchToProps(dispatch, ownProps) {
             const email = event.target.email.value
             const image = event.target.imageURL.value
             const campusId = event.target.campus.value
-            dispatch(putStudent(studentId, { first_name, last_name, email, image, campusId }))
-            dispatch(fetchStudents())
+            dispatch(putStudent(studentId, { first_name, last_name, email, image, campusId }, ownProps.history))
         },
         getCampuses() {
             dispatch(fetchCampuses())

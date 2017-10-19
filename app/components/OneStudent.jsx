@@ -15,10 +15,16 @@ class OneStudent extends Component {
     render() {
         const studentId = this.props.match.params.studentId
         const students = this.props.students
+        const campuses = this.props.campuses
         const filteredStudents = students.filter(student => {
             return +student.id === +studentId
         })[0]
-        const campusName = filteredStudents.campus.name
+        // const campusName = filteredStudents.campus.name
+
+        const campus = campuses.filter(campus => {
+            return filteredStudents.campusId === campus.id
+        })[0]
+        console.log("babababababa", campus)
 
         const edit = false
 
@@ -28,7 +34,7 @@ class OneStudent extends Component {
                 <p>First Name: {filteredStudents.first_name}</p>
                 <p>Last Name: {filteredStudents.last_name}</p>
                 <p>Email: {filteredStudents.email}</p>
-                <p>Campus: {campusName}</p>
+                <p>Campus:{campus.name}</p>
                 <img src={filteredStudents.image} />
                 <NavLink to={`/students/edit/${filteredStudents.id}`}>
                     <button>
@@ -42,14 +48,16 @@ class OneStudent extends Component {
 
 function mapStateToProps(state) {
     return {
-        students: state.students
+        students: state.students,
+        campuses: state.campuses
     }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
     return {
         updateStudent() {
-            dispatch(putStudent())
+            return dispatch(putStudent())
+            ownProps.history.push('/students')
         }
     }
 }

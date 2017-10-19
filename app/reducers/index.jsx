@@ -119,23 +119,22 @@ export function postCampus(campus) {
     }
 }
 
-export function putCampus(campusId, campus) {
-  
+export function putCampus(campusId, campus, history) {
+
     return function thunk(dispatch) {
       return axios.put(`/api/campuses/${campusId}`, campus)
         .then(() => {
-          dispatch(updateCampus(campusId))
+          dispatch(fetchCampuses())
+          history.push('/campuses')
         })
     }
 }
 
-export function removeCampus(campusId) {
+export function removeCampus(campus, history) {
   
     return function thunk(dispatch) {
-      return axios.delete(`/api/students/${campusId}`)
-        .then(() => {
-          dispatch(deleteCampus(campusId))
-        })
+      dispatch(deleteCampus(campus))
+      return axios.delete(`/api/campuses/${campus.id}`)
     }
 }
 
@@ -161,12 +160,13 @@ export function postStudent(student) {
     }
 }
 
-export function putStudent(studentId, student) {
+export function putStudent(studentId, student, history) {
   
     return function thunk(dispatch) {
       return axios.put(`/api/students/${studentId}`, student)
         .then(() => {
           dispatch(updateStudent(studentId))
+          history.push('/students')
         })
     }
 }
@@ -175,9 +175,6 @@ export function removeStudent(student) {
   return function thunk(dispatch) {
       dispatch(deleteStudent(student))
       return axios.delete(`/api/students/${student.id}`)
-        // .then(() => {
-        //   dispatch(deleteStudent(studentId))
-        // })
     }
 }
 
@@ -192,13 +189,18 @@ const rootReducer = function(state = initialState, action) {
       return Object.assign({}, state, {})
 
     case ADD_CAMPUS:
-      return Object.assign({}, state, {})
+      return Object.assign({}, state, {campuses: [...state.campuses, action.campus]})
 
     case UPDATE_CAMPUS:
-      return Object.assign({}, state, {})
+      return Object.assign({}, state, {
+        campuses: [...state.campuses.filter(campus => +campus.id !== +action.campus.id ), action.campus]
+      })
     
     case DELETE_CAMPUS:
-      return Object.assign({}, state, {})
+      return Object.assign({}, state, {
+        campuses: state.campuses.filter(campus => +campus.id !== +action.campus.id )
+        // students: state.students.filter(student => student.campusId !== action.campus.id)
+      })
 
 
 
@@ -210,7 +212,7 @@ const rootReducer = function(state = initialState, action) {
       return Object.assign({}, state, {})
 
     case ADD_STUDENT:
-      return Object.assign({}, state, {students: action.student})
+      return Object.assign({}, state, {students: [...state.students, action.student]})
 
     case UPDATE_STUDENT:
       return Object.assign({}, state, {})
