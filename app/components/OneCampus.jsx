@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchStudents, removeStudent } from '../reducers/index'
-import NewStudent from './NewStudent'
 
-class Students extends Component {
+class OneCampus extends Component {
     constructor(props) {
         super(props)
     }
@@ -14,12 +13,15 @@ class Students extends Component {
     }
 
     render() {
+        const campusId = this.props.match.params.campusId
         const students = this.props.students
+        const studentsByCampus = students.filter(student => {
+            return Number(student.campusId) === Number(campusId)
+        })
 
         return (
             <div>
-                <NewStudent />
-                ALL Students:
+                All Students Enrolled in Campus:
                 <table>
                     <thead>
                         <tr>
@@ -33,14 +35,9 @@ class Students extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {students.map(student => (
-
+                        {studentsByCampus.map(student => (
                             <tr key={student.id}>
-                                <td>
-                                    <NavLink to={`/students/${student.id}`}>
-                                        <img src={student.image} width="auto" height="80px" />
-                                    </NavLink>
-                                </td>
+                                <td><img src={student.image} width="auto" height="80px" /></td>
                                 <td>{student.first_name}</td>
                                 <td>{student.last_name}</td>
                                 <td>{student.email}</td>
@@ -59,6 +56,7 @@ class Students extends Component {
                         ))}
                     </tbody>
                 </table>
+
             </div>
         )
     }
@@ -81,6 +79,6 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-const Container = connect(mapStateToProps, mapDispatchToProps)(Students)
+const Container = connect(mapStateToProps, mapDispatchToProps)(OneCampus)
 
 export default Container

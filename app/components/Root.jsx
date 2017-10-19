@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom';
-import NewCampus from './NewCampus'
+// import NewCampus from './NewCampus'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import Campuses from './Campuses'
-// import OneCampus from './OneCampus'
+import OneCampus from './OneCampus'
 import HomePage from './HomePage'
 import Students from './Students'
-import NewStudent from './NewStudent'
+// import NewStudent from './NewStudent'
+import OneStudent from './OneStudent'
 
 export default class Root extends Component {
 
@@ -16,15 +17,18 @@ export default class Root extends Component {
       <div>
         <Navbar />
         <Switch>
-          <Route path="/home" component={HomePage} />
+          <Route path="/home" component={HomePage} /> 
           <Route exact path="/campuses" component={Campuses} />
-          {/* <Route path="/campuses/:campusId" component={OneCampus} /> */}
-          <Route path="/new-campus" component={NewCampus} />
+          <Route path="/campuses/:campusId" component={OneCampus} />
+          {/* <Route path="/new-campus" component={NewCampus} /> */}
+          <Route excat path="/students/:studentId" component={OneStudent} />
           <Route path="/students" component={Students} />
-          <Route path="/new-student" component={NewStudent} />
+          {/* <Route path="/new-student" component={NewStudent} /> */}
         </Switch>
         <Footer />
       </div>
     )
   }
 }
+
+// Routes home, campuses, and students are linked in the navbar component

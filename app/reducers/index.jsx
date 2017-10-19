@@ -135,11 +135,27 @@ export function postStudent(student) {
     return function thunk(dispatch) {
       return axios.post('/api/students', student)
         .then(res => res.data)
-        .then(campus => {
-          dispatch(addCampus(campus))
+        .then(student => {
+          dispatch(addStudent(student))
         })
     }
 }
+
+export function removeStudent(studentId) {
+  
+    return function thunk(dispatch) {
+      return axios.delete(`/api/students/${studentId}`)
+        .then(() => {
+          dispatch(deleteStudent(studentId))
+        })
+    }
+}
+
+// export const removeStory = id => dispatch => {
+//   dispatch(remove(id));
+//   axios.delete(`/api/stories/${id}`)
+//        .catch(err => console.error(`Removing story: ${id} unsuccessful`, err));
+// };
 
 
 // REDUCER

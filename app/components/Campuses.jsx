@@ -20,7 +20,11 @@ class Campuses extends Component {
                 <NewCampus />
                 ALL Campuses:
               {this.props.campuses.map(campus => (
-                    <p key={campus.id}>{campus.name}</p>
+                    <NavLink to={`/campuses/${campus.id}`} key={campus.id}>
+                        <p>
+                            {campus.name}
+                        </p>
+                    </NavLink>
                 ))}
             </div>
         )
