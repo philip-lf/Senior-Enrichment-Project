@@ -165,8 +165,9 @@ export function putStudent(studentId, student, history) {
     return function thunk(dispatch) {
       return axios.put(`/api/students/${studentId}`, student)
         .then(() => {
-          dispatch(updateStudent(studentId))
-          history.push('/students')
+          dispatch(updateStudent(student))
+          dispatch(fetchStudents())
+          // history.push('/students')
         })
     }
 }
@@ -185,37 +186,25 @@ const rootReducer = function(state = initialState, action) {
     case GET_ALL_CAMPUSES:
       return Object.assign({}, state, {campuses: action.campus})
 
-    case GET_ONE_CAMPUS:
-      return Object.assign({}, state, {})
-
     case ADD_CAMPUS:
       return Object.assign({}, state, {campuses: [...state.campuses, action.campus]})
 
+    // i didnt use this yet
     case UPDATE_CAMPUS:
-      return Object.assign({}, state, {
-        campuses: [...state.campuses.filter(campus => +campus.id !== +action.campus.id ), action.campus]
-      })
+      return Object.assign({}, state, { campuses: state.campuses.filter(campus => +campus.id !== +action.campus.id).concat(action.campus)});
     
     case DELETE_CAMPUS:
-      return Object.assign({}, state, {
-        campuses: state.campuses.filter(campus => +campus.id !== +action.campus.id )
-        // students: state.students.filter(student => student.campusId !== action.campus.id)
-      })
-
-
-
+      return Object.assign({}, state, {campuses: state.campuses.filter(campus => +campus.id !== +action.campus.id )})
 
     case GET_ALL_STUDENTS:
       return Object.assign({}, state, {students: action.students})
-
-    case GET_ONE_STUDENT:
-      return Object.assign({}, state, {})
 
     case ADD_STUDENT:
       return Object.assign({}, state, {students: [...state.students, action.student]})
 
     case UPDATE_STUDENT:
-      return Object.assign({}, state, {})
+      return Object.assign({}, state, { students: state.students.filter(student => +student.id !== +action.student.id).concat(action.student)});
+  
     
     case DELETE_STUDENT:
       return Object.assign({}, state, {students: state.students.filter(student => {
@@ -223,7 +212,7 @@ const rootReducer = function(state = initialState, action) {
       })})
 
     default: 
-      return state
+      return Object.assign({}, state)
   }
 };
 

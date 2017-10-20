@@ -8,10 +8,6 @@ class OneCampus extends Component {
         super(props)
     }
 
-    // componentDidMount() {
-    //     this.props.getStudents()
-    // }
-
     render() {
         const campusId = this.props.match.params.campusId
         const students = this.props.students
@@ -27,10 +23,10 @@ class OneCampus extends Component {
 
         return (
             <div>
-                <div>
+                <div className="space">
                     <p>Campus Name: {campus.name}</p>
                     <p>Campus Location: {campus.location}</p>
-                    <img src={campus.image} width="60%" height="auto" />
+                    <img className="campus" src={campus.image} width="60%" height="auto" />
                 </div>
                 <NavLink to={`/campus/edit/${campus.id}`}>
                     <button>
@@ -87,12 +83,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, ownProps) {
     return {
-        // getStudents() {
-        //     dispatch(fetchStudents())
-        // },
         removeCampus(campus) {
             dispatch(removeCampus(campus, ownProps.history))
-            ownProps.history.push('/students')
+            ownProps.history.push('/campuses')
         },
         removeStudent(studentId) {
             dispatch(removeStudent(studentId))

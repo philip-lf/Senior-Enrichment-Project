@@ -29,11 +29,9 @@ export default class Root extends Component {
           <Route exact path="/campuses" component={Campuses} />
           <Route path="/campuses/:campusId" component={OneCampus} />
           <Route path="/campus/edit/:campusId" component={EditCampus} />
-          {/* <Route path="/new-campus" component={NewCampus} /> */}
           <Route exact path="/students" component={Students} />
           <Route exact path="/students/edit/:studentId" component={EditStudent} />
           <Route path="/students/:studentId" component={OneStudent} />
-          {/* <Route path="/new-student" component={NewStudent} /> */}
         </Switch>
         <Footer />
       </div>
@@ -41,4 +39,3 @@ export default class Root extends Component {
   }
 }
 
-// Routes home, campuses, and students are linked in the navbar component

@@ -13,7 +13,6 @@ class NewCampus extends Component {
         this.handleNameChange = this.handleNameChange.bind(this)
         this.handleLocationChange = this.handleLocationChange.bind(this)
         this.handleImageChange = this.handleImageChange.bind(this)
-        // this.handleInput = this.handleInput.bind(this)
     }
 
     handleNameChange(event) {
@@ -36,11 +35,6 @@ class NewCampus extends Component {
             imageValue: event.target.value
         })
     }
-
-    // handleInput(event) {
-    //     event.preventDefault()
-    //     this.setState({})
-    // }
 
     render() {
         return (

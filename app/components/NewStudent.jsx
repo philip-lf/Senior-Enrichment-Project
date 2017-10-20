@@ -60,58 +60,60 @@ class NewStudent extends Component {
 
     render() {
         return (
-            <div>
+            <div className="forms">
                 ADD Student:
               <form onSubmit={this.props.handleSubmit}>
-                    Student First Name:
-                    <br />
-                    <input
-                        type="text"
-                        placeholder="first name"
-                        name="first"
-                        value={this.state.firstNameValue}
-                        onChange={this.handleFirstNameChange} />
-                    <br />
-                    Student Last Name:
-                    <br />
-                    <input
-                        type="text"
-                        placeholder="last name"
-                        name="last"
-                        value={this.state.lastNameValue}
-                        onChange={this.handleLastNameChange} />
-                    <br />
-                    Student Email:
-                    <br />
-                    <input
-                        type="text"
-                        placeholder="email address"
-                        name="email"
-                        value={this.state.emailValue}
-                        onChange={this.handleEmailChange} />
-                    <br />
-                    Student Image:
-                    <br />
-                    <input
-                        type="text"
-                        placeholder="imageURL"
-                        name="imageURL"
-                        value={this.state.imageValue}
-                        onChange={this.handleImageChange} />
-                    <br />
-                    <div>
-                        Campus to Attend:
-                        <select 
-                            name="campus"
-                            value={this.state.campusValue} 
-                            onChange={this.handleCampus}>
-                            {this.props.campuses.map(campus => (
-                                <option key={campus.id} value={campus.id}>{campus.name}</option>
-                            ))}
-                        </select>
+                    <div className="form-group">
+                        <label>First Name</label>
+                        <input
+                            type="text"
+                            placeholder="first name"
+                            name="first"
+                            value={this.state.firstNameValue}
+                            onChange={this.handleFirstNameChange} />
                     </div>
-                    <br />
-                    <button type="submit">
+                    <div className="form-group">
+                        <label>Last Name</label>
+                        <input
+                            type="text"
+                            placeholder="last name"
+                            name="last"
+                            value={this.state.lastNameValue}
+                            onChange={this.handleLastNameChange} />
+                    </div>
+                    <div className="form-group">
+                        <label>Email Address</label>
+                        <input
+                            type="text"
+                            placeholder="email address"
+                            name="email"
+                            value={this.state.emailValue}
+                            onChange={this.handleEmailChange} />
+                    </div>
+                    <div className="form-group">
+                        <label>Profile Image</label>
+                        <input
+                            type="text"
+                            placeholder="imageURL"
+                            name="imageURL"
+                            value={this.state.imageValue}
+                            onChange={this.handleImageChange} />
+                    </div>
+                    <div>
+                        <div className="form-group">
+                            <label>Campus to Attend</label>
+                            <select
+                                name="campus"
+                                value={this.state.campusValue}
+                                onChange={this.handleCampus}>
+                                {this.props.campuses.map(campus => (
+                                    <option key={campus.id} value={campus.id}>{campus.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" className="btn btn-default">
                         SUBMIT
                     </button>
                 </form>
@@ -140,7 +142,7 @@ function mapDispatchToProps(dispatch) {
         },
         getCampuses() {
             dispatch(fetchCampuses())
-            dispatch(fetchStudents())
+            // dispatch(fetchStudents())
         }
     }
 }

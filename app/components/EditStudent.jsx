@@ -19,10 +19,6 @@ class EditStudent extends Component {
         this.handleCampus = this.handleCampus.bind(this)
     }
 
-    componentDidMount() {
-        this.props.getCampuses()
-    }
-
     handleFirstNameChange(event) {
         console.log("first name: ", event.target.value)
         this.setState({
@@ -139,10 +135,7 @@ function mapDispatchToProps(dispatch, ownProps) {
             const image = event.target.imageURL.value
             const campusId = event.target.campus.value
             dispatch(putStudent(studentId, { first_name, last_name, email, image, campusId }, ownProps.history))
-        },
-        getCampuses() {
-            dispatch(fetchCampuses())
-            dispatch(fetchStudents())
+            ownProps.history.push('/students')
         }
     }
 }

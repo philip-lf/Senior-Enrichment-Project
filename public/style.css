@@ -1,0 +1,23 @@
+#gif img{
+    display: block;  
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+
+.forms {
+    width: 60%;
+}
+
+.campus {
+    border-radius: 100%;
+    width: 50%;
+    height: 50%;
+}
+
+/* .space {
+    width: 40vw;
+    height: 40vh;
+    margin: 10px;
+    background-color: grey;
+} */
