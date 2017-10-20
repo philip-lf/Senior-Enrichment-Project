@@ -60,7 +60,7 @@ class OneCampus extends Component {
                                 <td>{student.email}</td>
                                 <td>{student.campus.name}</td>
                                 <td>
-                                    <button onClick={() => { this.props.removeStudent(student.id) }}>
+                                    <button onClick={() => { this.props.removeStudent(student) }}>
                                         Delete
                                     </button>
                                 </td>
