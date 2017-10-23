@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { postStudent, fetchStudents, fetchCampuses } from '../reducers/index'
+import { postStudent } from '../reducers/index'
 
 class NewStudent extends Component {
     constructor(props) {
@@ -12,49 +12,16 @@ class NewStudent extends Component {
             imageValue: '',
             campusValue: ''
         }
-        this.handleFirstNameChange = this.handleFirstNameChange.bind(this)
-        this.handleLastNameChange = this.handleLastNameChange.bind(this)
-        this.handleEmailChange = this.handleEmailChange.bind(this)
-        this.handleImageChange = this.handleImageChange.bind(this)
-        this.handleCampus = this.handleCampus.bind(this)
+        this.handleAllInput = this.handleAllInput.bind(this)
     }
 
-    componentDidMount() {
-        this.props.getCampuses()
-    }
-
-    handleFirstNameChange(event) {
-        console.log("first name: ", event.target.value)
+    handleAllInput(event) {
         this.setState({
-            firstNameValue: event.target.value
-        })
-    }
-
-    handleLastNameChange(event) {
-        console.log("last name: ", event.target.value)
-        this.setState({
-            lastNameValue: event.target.value
-        })
-    }
-
-    handleEmailChange(event) {
-        console.log("email: ", event.target.value)
-        this.setState({
-            emailValue: event.target.value
-        })
-    }
-
-    handleImageChange(event) {
-        console.log("image: ", event.target.value)
-        this.setState({
-            imageValue: event.target.value
-        })
-    }
-
-    handleCampus(event) {
-        console.log("campus: ", event.target.value)
-        this.setState({
-            campusValue: event.target.value
+            firstNameValue: event.target.name === 'first' ? event.target.value : this.state.firstNameValue,
+            lastNameValue: event.target.name === 'last' ? event.target.value : this.state.lastNameValue,
+            emailValue: event.target.name === 'email' ? event.target.value : this.state.emailValue,
+            imageValue: event.target.name === 'imageURL' ? event.target.value : this.state.imageValue,
+            campusValue: event.target.name === 'campus' ? event.target.value : this.state.campusValue
         })
     }
 
@@ -70,7 +37,7 @@ class NewStudent extends Component {
                             placeholder="first name"
                             name="first"
                             value={this.state.firstNameValue}
-                            onChange={this.handleFirstNameChange} />
+                            onChange={this.handleAllInput} />
                     </div>
                     <div className="form-group">
                         <label>Last Name</label>
@@ -79,7 +46,7 @@ class NewStudent extends Component {
                             placeholder="last name"
                             name="last"
                             value={this.state.lastNameValue}
-                            onChange={this.handleLastNameChange} />
+                            onChange={this.handleAllInput} />
                     </div>
                     <div className="form-group">
                         <label>Email Address</label>
@@ -88,7 +55,7 @@ class NewStudent extends Component {
                             placeholder="email address"
                             name="email"
                             value={this.state.emailValue}
-                            onChange={this.handleEmailChange} />
+                            onChange={this.handleAllInput} />
                     </div>
                     <div className="form-group">
                         <label>Profile Image</label>
@@ -97,7 +64,7 @@ class NewStudent extends Component {
                             placeholder="imageURL"
                             name="imageURL"
                             value={this.state.imageValue}
-                            onChange={this.handleImageChange} />
+                            onChange={this.handleAllInput} />
                     </div>
                     <div>
                         <div className="form-group">
@@ -105,7 +72,7 @@ class NewStudent extends Component {
                             <select
                                 name="campus"
                                 value={this.state.campusValue}
-                                onChange={this.handleCampus}>
+                                onChange={this.handleAllInput}>
                                 {this.props.campuses.map(campus => (
                                     <option key={campus.id} value={campus.id}>{campus.name}</option>
                                 ))}
@@ -122,31 +89,22 @@ class NewStudent extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        campuses: state.campuses
-    }
-}
+const mapStateToProps = state => ({
+    campuses: state.campuses
+})
 
-function mapDispatchToProps(dispatch) {
-    return {
-        handleSubmit(event) {
-            event.preventDefault()
-            const first_name = event.target.first.value
-            const last_name = event.target.last.value
-            const email = event.target.email.value
-            const image = event.target.imageURL.value
-            const campusId = event.target.campus.value
-            dispatch(postStudent({ first_name, last_name, email, image, campusId }))
-            // dispatch(fetchStudents())
-        },
-        getCampuses() {
-            dispatch(fetchCampuses())
-            // dispatch(fetchStudents())
+const mapDispatchToProps = dispatch => ({
+    handleSubmit(event) {
+        event.preventDefault()
+        const studentToAdd = {
+            first_name: event.target.first.value,
+            last_name: event.target.last.value,
+            email: event.target.email.value,
+            image: event.target.imageURL.value,
+            campusId: event.target.campus.value
         }
+        dispatch(postStudent(studentToAdd))
     }
-}
+})
 
-const Container = connect(mapStateToProps, mapDispatchToProps)(NewStudent)
-
-export default Container
+export default connect(mapStateToProps, mapDispatchToProps)(NewStudent)

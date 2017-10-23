@@ -10,29 +10,14 @@ class NewCampus extends Component {
             locationValue: '',
             imageValue: ''
         }
-        this.handleNameChange = this.handleNameChange.bind(this)
-        this.handleLocationChange = this.handleLocationChange.bind(this)
-        this.handleImageChange = this.handleImageChange.bind(this)
+        this.handleAllInput = this.handleAllInput.bind(this)
     }
 
-    handleNameChange(event) {
-        console.log("name: ", event.target.value)
+    handleAllInput(event) {
         this.setState({
-            nameValue: event.target.value
-        })
-    }
-
-    handleLocationChange(event) {
-        console.log("location: ", event.target.value)
-        this.setState({
-            locationValue: event.target.value
-        })
-    }
-
-    handleImageChange(event) {
-        console.log("image: ", event.target.value)
-        this.setState({
-            imageValue: event.target.value
+            nameValue: event.target.name === 'name' ? event.target.value : this.state.nameValue,
+            locationValue: event.target.name === 'location' ? event.target.value : this.state.locationValue,
+            imageValue: event.target.name === 'imageURL' ? event.target.value : this.state.imageValue,
         })
     }
 
@@ -48,7 +33,7 @@ class NewCampus extends Component {
                         placeholder="name"
                         name="name"
                         value={this.state.nameValue}
-                        onChange={this.handleNameChange} />
+                        onChange={this.handleAllInput} />
                     <br />
                     Campus Location:
                     <br />
@@ -57,7 +42,7 @@ class NewCampus extends Component {
                         placeholder="location"
                         name="location"
                         value={this.state.locationValue}
-                        onChange={this.handleLocationChange} />
+                        onChange={this.handleAllInput} />
                     <br />
                     Campus Image:
                     <br />
@@ -66,7 +51,7 @@ class NewCampus extends Component {
                         placeholder="imageURL"
                         name="imageURL"
                         value={this.state.imageValue}
-                        onChange={this.handleImageChange} />
+                        onChange={this.handleAllInput} />
                     <br />
                     <button type="submit">
                         SUBMIT
@@ -77,18 +62,16 @@ class NewCampus extends Component {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        handleSubmit(event) {
-            event.preventDefault()
-            const name = event.target.name.value
-            const location = event.target.location.value
-            const image = event.target.imageURL.value
-            dispatch(postCampus({ name, location, image }))
+const mapDispatchToProps = dispatch => ({
+    handleSubmit(event) {
+        event.preventDefault()
+        const campusToAdd = {
+            name : event.target.name.value,
+            location : event.target.location.value,
+            image : event.target.imageURL.value
         }
+        dispatch(postCampus(campusToAdd))
     }
-}
+})
 
-const Container = connect(null, mapDispatchToProps)(NewCampus)
-
-export default Container
+export default connect(null, mapDispatchToProps)(NewCampus)

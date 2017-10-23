@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchStudents, removeStudent } from '../reducers/index'
+import { removeStudent } from '../reducers/index'
 import NewStudent from './NewStudent'
 
 class Students extends Component {
@@ -9,15 +9,9 @@ class Students extends Component {
         super(props)
     }
 
-    // componentDidMount() {
-    //     this.props.getStudents()
-    // }
-
     render() {
         const students = this.props.students
         const campuses = this.props.campuses
-
-        console.log("philip", campuses)
 
         return (
             <div>
@@ -70,25 +64,15 @@ class Students extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        students: state.students,
-        campuses: state.campuses
+const mapStateToProps = state => ({
+    students: state.students,
+    campuses: state.campuses
+})
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    removeStudent(student) {
+        return dispatch(removeStudent(student))
     }
-}
+})
 
-function mapDispatchToProps(dispatch, ownProps) {
-    return {
-        // getStudents() {
-        //     dispatch(fetchStudents())
-        // },
-        removeStudent(student) {
-            return dispatch(removeStudent(student))
-            // ownProps.history.push('/students')
-        }
-    }
-}
-
-const Container = connect(mapStateToProps, mapDispatchToProps)(Students)
-
-export default Container
+export default connect(mapStateToProps, mapDispatchToProps)(Students)

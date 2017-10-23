@@ -9,14 +9,12 @@ const initialState = {
 
 // ACTION TYPES
 const GET_ALL_CAMPUSES = 'GET_ALL_CAMPUSES'
-const GET_ONE_CAMPUS = 'GET_ONE_CAMPUS'
 const ADD_CAMPUS = 'ADD_CAMPUS'
 const UPDATE_CAMPUS = 'UPDATE_CAMPUS'
 const DELETE_CAMPUS = 'DELETE_CAMPUS'
 
 
 const GET_ALL_STUDENTS = 'GET_ALL_STUDENTS'
-const GET_ONE_STUDENT = 'GET_ONE_STUDENT'
 const ADD_STUDENT = 'ADD_STUDENT'
 const UPDATE_STUDENT = 'UPDATE_STUDENT'
 const DELETE_STUDENT = 'DELETE_STUDENT'
@@ -26,13 +24,6 @@ const DELETE_STUDENT = 'DELETE_STUDENT'
 export function getAllCampuses(campus) {
   return {
     type: GET_ALL_CAMPUSES,
-    campus
-  }
-}
-
-export function getOneCampus(campus) {
-  return {
-    type: GET_ONE_CAMPUS,
     campus
   }
 }
@@ -65,13 +56,6 @@ export function getAllStudents(students) {
   return {
     type: GET_ALL_STUDENTS,
     students
-  }
-}
-
-export function getOneStudent(student) {
-  return {
-    type: GET_ONE_STUDENT,
-    student
   }
 }
 
@@ -171,7 +155,6 @@ export function putStudent(studentId, student, history) {
         .then(() => {
           dispatch(updateStudent(student))
           dispatch(fetchStudents())
-          // history.push('/students')
         })
     }
 }

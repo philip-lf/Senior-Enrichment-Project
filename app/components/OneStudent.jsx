@@ -8,35 +8,22 @@ class OneStudent extends Component {
         super(props)
     }
 
-    // componentDidMount() {
-    //     this.props.getStudents()
-    // }
-
     render() {
         const studentId = this.props.match.params.studentId
         const students = this.props.students
         const campuses = this.props.campuses
-        const filteredStudents = students.filter(student => {
-            return +student.id === +studentId
-        })[0]
-        // const campusName = filteredStudents.campus.name
-
-        const campus = campuses.filter(campus => {
-            return filteredStudents.campusId === campus.id
-        })[0]
-        console.log("babababababa", campus)
-
-        const edit = false
+        const oneStudent = students.filter(student => +student.id === +studentId)[0]
+        const campus = campuses.filter(campus => oneStudent.campusId === campus.id)[0]
 
         return (
             <div>
                 Students Name:
-                <p>First Name: {filteredStudents.first_name}</p>
-                <p>Last Name: {filteredStudents.last_name}</p>
-                <p>Email: {filteredStudents.email}</p>
-                <p>Campus:{campus.name}</p>
-                <img src={filteredStudents.image} />
-                <NavLink to={`/students/edit/${filteredStudents.id}`}>
+                <p>First Name: {oneStudent.first_name}</p>
+                <p>Last Name: {oneStudent.last_name}</p>
+                <p>Email: {oneStudent.email}</p>
+                <p>Campus: {campus.name}</p>
+                <img src={oneStudent.image} />
+                <NavLink to={`/students/edit/${oneStudent.id}`}>
                     <button>
                         Edit
                     </button>
@@ -46,22 +33,16 @@ class OneStudent extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        students: state.students,
-        campuses: state.campuses
+const mapStateToProps = state => ({
+    students: state.students,
+    campuses: state.campuses
+})
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    updateStudent() {
+        dispatch(putStudent())
+        ownProps.history.push('/students')
     }
-}
+})
 
-function mapDispatchToProps(dispatch, ownProps) {
-    return {
-        updateStudent() {
-            return dispatch(putStudent())
-            ownProps.history.push('/students')
-        }
-    }
-}
-
-const Container = connect(mapStateToProps)(OneStudent)
-
-export default Container
+export default connect(mapStateToProps)(OneStudent)

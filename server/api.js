@@ -4,13 +4,11 @@ const api = require('express').Router()
 const db = require('../db')
 const {Student, Campus} = require('../db/models')
 
-// If you aren't getting to this object, but rather the index.html (something with a joke) your path is wrong.
-	// I know this because we automatically send index.html for all requests that don't make sense in our backend.
-	// Ideally you would have something to handle this, so if you have time try that out!
-
 // CAMPUS ROUTES ********************************************************************
 
-// GET ALL CAMPUSES : /api/campuses
+// following routes start with: /api/campuses
+
+// GET ALL CAMPUSES
 api.get('/campuses', (req, res, next) => {
 	Campus.findAll()
 	.then(data => { res.json(data) })
@@ -21,7 +19,7 @@ api.get('/campuses', (req, res, next) => {
 api.post('/campuses', (req, res, next) => {
 	Campus.create(req.body)
 	.then(campus => {
-		console.log("Campus Posted!")
+		console.log(chalk.bgBlue("Campus Posted!"))
 		res.json(campus)
 	})
 	.catch(next)
@@ -30,11 +28,8 @@ api.post('/campuses', (req, res, next) => {
 // HANDLING ONE CAMPUS
 api.param('campusId', (req, res, next, id) => {
 	Campus.findById(id)
-	.then(campus => {            // array only contains one campus instance
-		if(!campus) {            // when campus with that id does NOT exist
-			console.log("Campus Does NOT Exist")
-			res.sendStatus(404)
-		}
+	.then(campus => {                     // array only contains one campus instance
+		if(!campus) res.sendStatus(404)   // when campus with that id does NOT exist
 		req.campus = campus     
 		next()                   // id is captured and can now move on to other routes
 	})
@@ -49,7 +44,7 @@ api.get('/campuses/:campusId', (req, res, next) => {
 api.put('/campuses/:campusId', (req, res, next) => {
 	req.campus.update(req.body)
 	.then(campus => {
-		console.log("Updated Campus!")
+		console.log(chalk.bgGreen("Updated Campus!"))
 		res.json(campus)
 	})
 	.catch(next)
@@ -58,13 +53,15 @@ api.put('/campuses/:campusId', (req, res, next) => {
 // DELETE CAMPUS
 api.delete('/campuses/:campusId', (req, res, next) => {
 	req.campus.destroy()
-	.then(data => { console.log(chalk.red(" Deleted Campus :( ")) })
+	.then(data => { console.log(chalk.bgRed(" Deleted Campus :( ")) })
 	.catch(next)
 })
 
 // STUDENT ROUTES *******************************************************************
 
-// GET ALL STUDENTS : /api/students
+// following routes start with: /api/students
+
+// GET ALL STUDENTS
 api.get('/students', (req, res, next) => {
 	Student.findAll({
 		include: [{ all: true, nested: true }]
@@ -77,7 +74,7 @@ api.get('/students', (req, res, next) => {
 api.post('/students', (req, res, next) => {
 	Student.create(req.body)
 	.then(student => {
-		console.log("Student Enrolled!")
+		console.log(chalk.bgBlue("Student Enrolled!"))
 		res.json(student)
 	})
 	.catch(next)
@@ -105,7 +102,7 @@ api.get('/students/:studentId', (req, res, next) => {
 api.put('/students/:studentId', (req, res, next) => {
 	req.student.update(req.body)
 	.then(student => {
-		console.log(chalk.blue.bgWhite("Updated Student!"))
+		console.log(chalk.bgGreen("Updated Student!"))
 		res.json(student)
 	})
 	.catch(next)

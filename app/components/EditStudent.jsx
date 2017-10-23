@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { putStudent, fetchStudents, fetchCampuses } from '../reducers/index'
+import { putStudent } from '../reducers/index'
 
 class EditStudent extends Component {
     constructor(props) {
@@ -12,104 +12,75 @@ class EditStudent extends Component {
             imageValue: '',
             campusValue: ''
         }
-        this.handleFirstNameChange = this.handleFirstNameChange.bind(this)
-        this.handleLastNameChange = this.handleLastNameChange.bind(this)
-        this.handleEmailChange = this.handleEmailChange.bind(this)
-        this.handleImageChange = this.handleImageChange.bind(this)
-        this.handleCampus = this.handleCampus.bind(this)
+        this.handleAllInput = this.handleAllInput.bind(this)
     }
 
-    handleFirstNameChange(event) {
-        console.log("first name: ", event.target.value)
+    handleAllInput(event) {
         this.setState({
-            firstNameValue: event.target.value
-        })
-    }
-
-    handleLastNameChange(event) {
-        console.log("last name: ", event.target.value)
-        this.setState({
-            lastNameValue: event.target.value
-        })
-    }
-
-    handleEmailChange(event) {
-        console.log("email: ", event.target.value)
-        this.setState({
-            emailValue: event.target.value
-        })
-    }
-
-    handleImageChange(event) {
-        console.log("image: ", event.target.value)
-        this.setState({
-            imageValue: event.target.value
-        })
-    }
-
-    handleCampus(event) {
-        console.log("campus: ", event.target.value)
-        this.setState({
-            campusValue: event.target.value
+            firstNameValue: event.target.name === 'first' ? event.target.value : this.state.firstNameValue,
+            lastNameValue: event.target.name === 'last' ? event.target.value : this.state.lastNameValue,
+            emailValue: event.target.name === 'email' ? event.target.value : this.state.emailValue,
+            imageValue: event.target.name === 'imageURL' ? event.target.value : this.state.imageValue,
+            campusValue: event.target.name === 'campus' ? event.target.value : this.state.campusValue
         })
     }
 
     render() {
-        const studentId = this.props.match.params.studentId
-
         return (
-            <div>
-                Edit Student:
-              <form onSubmit={event => {this.props.handleSubmit(event)}}>
-                    Student First Name:
-                    <br />
-                    <input
-                        type="text"
-                        placeholder="first name"
-                        name="first"
-                        value={this.state.firstNameValue}
-                        onChange={this.handleFirstNameChange} />
-                    <br />
-                    Student Last Name:
-                    <br />
-                    <input
-                        type="text"
-                        placeholder="last name"
-                        name="last"
-                        value={this.state.lastNameValue}
-                        onChange={this.handleLastNameChange} />
-                    <br />
-                    Student Email:
-                    <br />
-                    <input
-                        type="text"
-                        placeholder="email address"
-                        name="email"
-                        value={this.state.emailValue}
-                        onChange={this.handleEmailChange} />
-                    <br />
-                    Student Image:
-                    <br />
-                    <input
-                        type="text"
-                        placeholder="imageURL"
-                        name="imageURL"
-                        value={this.state.imageValue}
-                        onChange={this.handleImageChange} />
-                    <br />
-                    <div>
-                        Campus to Attend:
-                        <select 
-                            name="campus"
-                            value={this.state.campusValue} 
-                            onChange={this.handleCampus}>
-                            {this.props.campuses.map(campus => (
-                                <option key={campus.id} value={campus.id}>{campus.name}</option>
-                            ))}
-                        </select>
+            <div className="forms">
+                ADD Student:
+              <form onSubmit={this.props.handleSubmit}>
+                    <div className="form-group">
+                        <label>First Name</label>
+                        <input
+                            type="text"
+                            placeholder="first name"
+                            name="first"
+                            value={this.state.firstNameValue}
+                            onChange={this.handleAllInput} />
                     </div>
-                    <br />
-                    <button type="submit">
+                    <div className="form-group">
+                        <label>Last Name</label>
+                        <input
+                            type="text"
+                            placeholder="last name"
+                            name="last"
+                            value={this.state.lastNameValue}
+                            onChange={this.handleAllInput} />
+                    </div>
+                    <div className="form-group">
+                        <label>Email Address</label>
+                        <input
+                            type="text"
+                            placeholder="email address"
+                            name="email"
+                            value={this.state.emailValue}
+                            onChange={this.handleAllInput} />
+                    </div>
+                    <div className="form-group">
+                        <label>Profile Image</label>
+                        <input
+                            type="text"
+                            placeholder="imageURL"
+                            name="imageURL"
+                            value={this.state.imageValue}
+                            onChange={this.handleAllInput} />
+                    </div>
+                    <div>
+                        <div className="form-group">
+                            <label>Campus to Attend</label>
+                            <select
+                                name="campus"
+                                value={this.state.campusValue}
+                                onChange={this.handleAllInput}>
+                                {this.props.campuses.map(campus => (
+                                    <option key={campus.id} value={campus.id}>{campus.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" className="btn btn-default">
                         SUBMIT
                     </button>
                 </form>
@@ -118,28 +89,24 @@ class EditStudent extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        campuses: state.campuses
-    }
-}
+const mapStateToProps = state => ({
+    campuses: state.campuses
+})
 
-function mapDispatchToProps(dispatch, ownProps) {
-    return {
-        handleSubmit(event) {
-            event.preventDefault()
-            const studentId = ownProps.match.params.studentId
-            const first_name = event.target.first.value
-            const last_name = event.target.last.value
-            const email = event.target.email.value
-            const image = event.target.imageURL.value
-            const campusId = event.target.campus.value
-            dispatch(putStudent(studentId, { first_name, last_name, email, image, campusId }, ownProps.history))
-            ownProps.history.push('/students')
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    handleSubmit(event) {
+        event.preventDefault()
+        const studentId = ownProps.match.params.studentId
+        const studentToEdit = {
+            first_name: event.target.first.value,
+            last_name: event.target.last.value,
+            email: event.target.email.value,
+            image: event.target.imageURL.value,
+            campusId: event.target.campus.value
         }
+        dispatch(putStudent(studentId, studentToEdit, ownProps.history))
+        ownProps.history.push('/students')
     }
-}
+})
 
-const Container = connect(mapStateToProps, mapDispatchToProps)(EditStudent)
-
-export default Container
+export default connect(mapStateToProps, mapDispatchToProps)(EditStudent)

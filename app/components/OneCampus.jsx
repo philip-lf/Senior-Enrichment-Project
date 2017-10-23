@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchStudents, removeCampus, removeStudent } from '../reducers/index'
+import { removeCampus, removeStudent } from '../reducers/index'
 
 class OneCampus extends Component {
     constructor(props) {
@@ -11,15 +11,8 @@ class OneCampus extends Component {
     render() {
         const campusId = this.props.match.params.campusId
         const students = this.props.students
-
-        const studentsByCampus = students.filter(student => {
-            return Number(student.campusId) === Number(campusId)
-        })
-
-        const campus = this.props.campuses.filter(campus => {
-            return +campus.id === +campusId
-        })[0]
-        console.log("CAMPUSES", campus)
+        const studentsByCampus = students.filter(student => +student.campusId === +campusId)
+        const campus = this.props.campuses.filter(campus => +campus.id === +campusId)[0]
 
         return (
             <div>
@@ -74,25 +67,19 @@ class OneCampus extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        students: state.students,
-        campuses: state.campuses
+const mapStateToProps = state => ({
+    students: state.students,
+    campuses: state.campuses
+})
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    removeCampus(campus) {
+        dispatch(removeCampus(campus))
+        ownProps.history.push('/campuses')
+    },
+    removeStudent(studentId) {
+        dispatch(removeStudent(studentId))
     }
-}
+})
 
-function mapDispatchToProps(dispatch, ownProps) {
-    return {
-        removeCampus(campus) {
-            dispatch(removeCampus(campus, ownProps.history))
-            ownProps.history.push('/campuses')
-        },
-        removeStudent(studentId) {
-            dispatch(removeStudent(studentId))
-        }
-    }
-}
-
-const Container = connect(mapStateToProps, mapDispatchToProps)(OneCampus)
-
-export default Container
+export default connect(mapStateToProps, mapDispatchToProps)(OneCampus)
