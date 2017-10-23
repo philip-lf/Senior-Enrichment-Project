@@ -41,14 +41,8 @@ class Students extends Component {
                                 <td>{student.last_name}</td>
                                 <td>{student.email}</td>
                                 <td>
-                                    {campuses.find(campus => {
-                                    return campus.id === student.campusId
-                                    }) ? 
-                                    campuses.find(campus => {
-                                    return campus.id === student.campusId
-                                    }).name :
-                                    ''
-                                    }
+                                    {campuses.find(campus => campus.id === student.campusId) ? 
+                                    campuses.find(campus => campus.id === student.campusId).name : ''}
                                 </td>
                                 <td>
                                     <button onClick={() => { this.props.removeStudent(student) }}>

@@ -82,11 +82,11 @@ function mapDispatchToProps(dispatch, ownProps) {
     return {
         handleSubmit(event) {
             event.preventDefault()
-            const campusId = ownProps.match.params.campusId            
+            const id = ownProps.match.params.campusId            
             const name = event.target.name.value
             const location = event.target.location.value
             const image = event.target.imageURL.value
-            return dispatch(putCampus(campusId, { name, location, image }, ownProps.history))
+            return dispatch(putCampus({ id, name, location, image }, ownProps.history))
         }
     }
 }

@@ -103,12 +103,12 @@ export function postCampus(campus) {
     }
 }
 
-export function putCampus(campusId, campus, history) {
+export function putCampus(campus, history) {
 
     return function thunk(dispatch) {
-      return axios.put(`/api/campuses/${campusId}`, campus)
+      return axios.put(`/api/campuses/${campus.id}`, campus)
         .then(() => {
-          dispatch(fetchCampuses())
+          dispatch(updateCampus(campus))
           history.push('/campuses')
         })
     }
@@ -176,10 +176,9 @@ const rootReducer = function(state = initialState, action) {
     case ADD_CAMPUS:
       return Object.assign({}, state, {campuses: [...state.campuses, action.campus]})
 
-    // i didnt use this yet
     case UPDATE_CAMPUS:
-      return Object.assign({}, state, { campuses: state.campuses.filter(campus => +campus.id !== +action.campus.id).concat(action.campus)});
-    
+      return Object.assign({}, state, {campuses: state.campuses.map(campus => +campus.id === +action.campus.id ? action.campus : campus)})
+
     case DELETE_CAMPUS:
       return Object.assign({}, state, {campuses: state.campuses.filter(campus => +campus.id !== +action.campus.id )})
 
@@ -190,8 +189,7 @@ const rootReducer = function(state = initialState, action) {
       return Object.assign({}, state, {students: [...state.students, action.student]})
 
     case UPDATE_STUDENT:
-      return Object.assign({}, state, { students: state.students.filter(student => +student.id !== +action.student.id).concat(action.student)});
-  
+      return Object.assign({}, state, {students: state.students.map(student => +student.id === +action.student.id ? action.student : student)})
     
     case DELETE_STUDENT:
       return Object.assign({}, state, {students: state.students.filter(student => {
