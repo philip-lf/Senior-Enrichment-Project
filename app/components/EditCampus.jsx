@@ -1,24 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { putCampus, fetchCampuses } from '../reducers/index'
+import newState, { helper } from './handlerHelper'
 
 class EditCampus extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            nameValue: '',
-            locationValue: '',
-            imageValue: ''
+            name: '',
+            location: '',
+            imageURL: ''
         }
-        this.handleAllInput = this.handleAllInput.bind(this)
-    }
-
-    handleAllInput(event) {
-        this.setState({
-            nameValue: event.target.name === 'name' ? event.target.value : this.state.nameValue,
-            locationValue: event.target.name === 'location' ? event.target.value : this.state.locationValue,
-            imageValue: event.target.name === 'imageURL' ? event.target.value : this.state.imageValue,
-        })
     }
 
     render() {
@@ -32,8 +24,8 @@ class EditCampus extends Component {
                         type="text"
                         placeholder="name"
                         name="name"
-                        value={this.state.nameValue}
-                        onChange={this.handleAllInput} />
+                        value={this.state.name}
+                        onChange={e => {helper(this.state,e); this.setState(newState)}}/>
                     <br />
                     Campus Location:
                     <br />
@@ -41,8 +33,8 @@ class EditCampus extends Component {
                         type="text"
                         placeholder="location"
                         name="location"
-                        value={this.state.locationValue}
-                        onChange={this.handleAllInput} />
+                        value={this.state.location}
+                        onChange={e => {helper(this.state,e); this.setState(newState)}}/>
                     <br />
                     Campus Image:
                     <br />
@@ -50,8 +42,8 @@ class EditCampus extends Component {
                         type="text"
                         placeholder="imageURL"
                         name="imageURL"
-                        value={this.state.imageValue}
-                        onChange={this.handleAllInput} />
+                        value={this.state.image}
+                        onChange={e => {helper(this.state,e); this.setState(newState)}}/>
                     <br />
                     <button type="submit">
                         SUBMIT

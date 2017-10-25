@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { postStudent } from '../reducers/index'
-import obj, { handlerHelper } from './handlerHelper'
+import newState, { helper } from './handlerHelper'
 
 class NewStudent extends Component {
     constructor(props) {
@@ -27,10 +27,7 @@ class NewStudent extends Component {
                             placeholder="first name"
                             name="first"
                             value={this.state.first}
-                            onChange={event => {
-                                handlerHelper(this.state, event)
-                                this.setState(obj)
-                            }} />
+                            onChange={e => {helper(this.state,e); this.setState(newState)}}/>
                     </div>
                     <div className="form-group">
                         <label>Last Name</label>
@@ -39,10 +36,7 @@ class NewStudent extends Component {
                             placeholder="last name"
                             name="last"
                             value={this.state.last}
-                            onChange={event => {
-                                handlerHelper(this.state, event)
-                                this.setState(obj)
-                            }} />
+                            onChange={e => {helper(this.state,e); this.setState(newState)}}/>
                     </div>
                     <div className="form-group">
                         <label>Email Address</label>
@@ -50,11 +44,8 @@ class NewStudent extends Component {
                             type="text"
                             placeholder="email address"
                             name="email"
-                            value={this.state.emailValue}
-                            onChange={event => {
-                                handlerHelper(this.state, event)
-                                this.setState(obj)
-                            }} />
+                            value={this.state.email}
+                            onChange={e => {helper(this.state,e); this.setState(newState)}}/>
                     </div>
                     <div className="form-group">
                         <label>Profile Image</label>
@@ -62,22 +53,16 @@ class NewStudent extends Component {
                             type="text"
                             placeholder="imageURL"
                             name="imageURL"
-                            value={this.state.imageValue}
-                            onChange={event => {
-                                handlerHelper(this.state, event)
-                                this.setState(obj)
-                            }} />
+                            value={this.state.image}
+                            onChange={e => {helper(this.state,e); this.setState(newState)}}/>
                     </div>
                     <div>
                         <div className="form-group">
                             <label>Campus to Attend</label>
                             <select
                                 name="campus"
-                                value={this.state.campusValue}
-                                onChange={event => {
-                                    handlerHelper(this.state, event)
-                                    this.setState(obj)
-                                }} >
+                                value={this.state.campus}
+                                onChange={e => {helper(this.state,e); this.setState(newState)}}>
                                 {this.props.campuses.map(campus => (
                                     <option key={campus.id} value={campus.id}>{campus.name}</option>
                                 ))}
