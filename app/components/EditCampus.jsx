@@ -10,34 +10,18 @@ class EditCampus extends Component {
             locationValue: '',
             imageValue: ''
         }
-        this.handleNameChange = this.handleNameChange.bind(this)
-        this.handleLocationChange = this.handleLocationChange.bind(this)
-        this.handleImageChange = this.handleImageChange.bind(this)
+        this.handleAllInput = this.handleAllInput.bind(this)
     }
 
-    handleNameChange(event) {
-        console.log("name: ", event.target.value)
+    handleAllInput(event) {
         this.setState({
-            nameValue: event.target.value
-        })
-    }
-
-    handleLocationChange(event) {
-        console.log("location: ", event.target.value)
-        this.setState({
-            locationValue: event.target.value
-        })
-    }
-
-    handleImageChange(event) {
-        console.log("image: ", event.target.value)
-        this.setState({
-            imageValue: event.target.value
+            nameValue: event.target.name === 'name' ? event.target.value : this.state.nameValue,
+            locationValue: event.target.name === 'location' ? event.target.value : this.state.locationValue,
+            imageValue: event.target.name === 'imageURL' ? event.target.value : this.state.imageValue,
         })
     }
 
     render() {
-        console.log("this.porops", this.props)
         return (
             <div>
                 Edit Campus:
@@ -49,7 +33,7 @@ class EditCampus extends Component {
                         placeholder="name"
                         name="name"
                         value={this.state.nameValue}
-                        onChange={this.handleNameChange} />
+                        onChange={this.handleAllInput} />
                     <br />
                     Campus Location:
                     <br />
@@ -58,7 +42,7 @@ class EditCampus extends Component {
                         placeholder="location"
                         name="location"
                         value={this.state.locationValue}
-                        onChange={this.handleLocationChange} />
+                        onChange={this.handleAllInput} />
                     <br />
                     Campus Image:
                     <br />
@@ -67,7 +51,7 @@ class EditCampus extends Component {
                         placeholder="imageURL"
                         name="imageURL"
                         value={this.state.imageValue}
-                        onChange={this.handleImageChange} />
+                        onChange={this.handleAllInput} />
                     <br />
                     <button type="submit">
                         SUBMIT
@@ -78,8 +62,7 @@ class EditCampus extends Component {
     }
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
-    return {
+const mapDispatchToProps = (dispatch, ownProps) => ({
         handleSubmit(event) {
             event.preventDefault()
             const id = ownProps.match.params.campusId            
@@ -88,9 +71,6 @@ function mapDispatchToProps(dispatch, ownProps) {
             const image = event.target.imageURL.value
             return dispatch(putCampus({ id, name, location, image }, ownProps.history))
         }
-    }
-}
+})
 
-const Container = connect(null, mapDispatchToProps)(EditCampus)
-
-export default Container
+export default connect(null, mapDispatchToProps)(EditCampus)

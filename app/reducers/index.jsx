@@ -121,7 +121,6 @@ export function removeCampus(campus, history) {
       return axios.delete(`/api/campuses/${campus.id}`)
       .then(() => {
         dispatch(fetchStudents())
-        dispatch(fetchStudents())
       })
     }
 }
@@ -144,6 +143,7 @@ export function postStudent(student) {
         .then(res => res.data)
         .then(student => {
           dispatch(addStudent(student))
+          dispatch(fetchCampuses())
         })
     }
 }
